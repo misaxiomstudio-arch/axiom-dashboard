@@ -1,0 +1,275 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:sans-serif;}
+.topbar{background:#0f2d3d;border-radius:12px 12px 0 0;padding:0 1.25rem;display:flex;align-items:center;gap:0;}
+.brand{display:flex;align-items:center;gap:8px;padding:13px 16px 13px 0;border-right:0.5px solid rgba(255,255,255,0.12);margin-right:12px;}
+.brand-icon{width:28px;height:28px;background:#1a6b8a;border-radius:6px;display:flex;align-items:center;justify-content:center;}
+.brand span{font-size:14px;font-weight:500;color:#fff;}
+.nav-tab{padding:13px 15px;font-size:13px;color:rgba(255,255,255,0.5);cursor:pointer;border-bottom:2px solid transparent;}
+.nav-tab.active{color:#fff;border-bottom-color:#38bdf8;}
+.hero{background:#163a50;padding:1.75rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.hero h1{font-size:22px;font-weight:500;color:#fff;margin-bottom:4px;}
+.hero p{font-size:13px;color:rgba(255,255,255,0.5);}
+.hstats{display:flex;gap:10px;}
+.hs{background:rgba(255,255,255,0.08);border-radius:8px;padding:10px 16px;text-align:center;}
+.hs .n{font-size:20px;font-weight:500;color:#38bdf8;}
+.hs .l{font-size:11px;color:rgba(255,255,255,0.45);margin-top:1px;}
+.body{background:#f0f4f7;padding:1.25rem;}
+.dept-block{background:#fff;border:0.5px solid #dde3ea;border-radius:12px;margin-bottom:1.25rem;overflow:hidden;}
+.dept-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:0.5px solid #eef1f4;}
+.dept-head-left{display:flex;align-items:center;gap:10px;}
+.dept-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.dept-name{font-size:15px;font-weight:500;color:#1a2e3b;}
+.dept-count{font-size:12px;color:#6b7a8d;margin-top:1px;}
+.dept-body{padding:14px 16px;}
+.sec-label{font-size:11px;font-weight:500;color:#6b7a8d;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:8px;margin-bottom:14px;}
+.card{background:#f8fafc;border:0.5px solid #dde3ea;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:7px;}
+.cicon{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.cname{font-size:13px;font-weight:500;color:#1a2e3b;line-height:1.3;}
+.cbadge{font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500;display:inline-block;}
+.bf{background:#dbeafe;color:#1e4d8c;}
+.bs{background:#dcfce7;color:#166534;}
+.card-btns{display:flex;gap:5px;margin-top:2px;}
+.cbtn{flex:1;padding:5px 4px;border-radius:6px;font-size:11px;font-weight:500;border:0.5px solid #d1d9e0;background:#fff;color:#334155;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:3px;}
+.cbtn:hover{background:#f1f5f9;}
+.cbtn.del{color:#dc2626;border-color:#fecaca;}
+.cbtn.del:hover{background:#fef2f2;}
+.add-card{background:#f8fafc;border:0.5px dashed #b0bec5;border-radius:10px;padding:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;min-height:110px;}
+.add-card:hover{background:#f1f5f9;border-color:#90a4ae;}
+.add-card span{font-size:12px;color:#6b7a8d;}
+.add-dept-btn{width:100%;padding:10px;border-radius:8px;border:0.5px dashed #90a4ae;background:transparent;font-size:13px;color:#6b7a8d;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;}
+.add-dept-btn:hover{background:#e8f4f8;color:#1a2e3b;}
+.modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:100;align-items:center;justify-content:center;}
+.modal-wrap.open{display:flex;}
+.modal{background:#fff;border-radius:12px;padding:1.5rem;width:340px;max-width:92vw;}
+.modal h3{font-size:15px;font-weight:500;color:#1a2e3b;margin-bottom:1rem;}
+.field{margin-bottom:10px;}
+.field label{font-size:12px;color:#6b7a8d;display:block;margin-bottom:3px;}
+.field input,.field select{width:100%;font-size:13px;padding:7px 10px;border:0.5px solid #d1d9e0;border-radius:7px;outline:none;background:#fff;color:#1a2e3b;}
+.field input:focus{border-color:#38bdf8;}
+.mbtns{display:flex;gap:8px;margin-top:1rem;justify-content:flex-end;}
+.mbtns button{padding:7px 16px;border-radius:7px;font-size:13px;cursor:pointer;}
+.mbtn-cancel{background:transparent;border:0.5px solid #d1d9e0;color:#6b7a8d;}
+.mbtn-save{background:#0f2d3d;border:none;color:#fff;font-weight:500;}
+.mbtn-save:hover{background:#163a50;}
+.link-input{display:flex;gap:5px;}
+.link-input input{flex:1;}
+</style>
+
+<h2 class="sr-only">Axiom full dashboard with add edit delete for forms sheets and departments</h2>
+
+<div style="border:0.5px solid #d0d7de;border-radius:12px;overflow:hidden;" id="dashroot">
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-icon"><i class="ti ti-building" style="font-size:14px;color:#38bdf8" aria-hidden="true"></i></div>
+      <span>Mdo-Team Workspace</span>
+    </div>
+    <div class="nav-tab active">Home</div>
+  </div>
+  <div class="hero">
+    <div>
+      <h1>Axiom Dashboard</h1>
+      <p>Your central hub for all department forms and sheets.</p>
+    </div>
+    <div class="hstats">
+      <div class="hs"><div class="n" id="stat-dept">2</div><div class="l">Departments</div></div>
+      <div class="hs"><div class="n" id="stat-forms">0</div><div class="l">Forms</div></div>
+      <div class="hs"><div class="n" id="stat-sheets">0</div><div class="l">Sheets</div></div>
+    </div>
+  </div>
+  <div class="body" id="body"></div>
+</div>
+
+<div class="modal-wrap" id="modal">
+  <div class="modal">
+    <h3 id="modal-title">Add New Item</h3>
+    <div class="field"><label>Name</label><input type="text" id="m-name" placeholder="e.g. Attendance Form"/></div>
+    <div class="field"><label>Type</label>
+      <select id="m-type">
+        <option value="form">Google Form</option>
+        <option value="sheet">Google Sheet</option>
+      </select>
+    </div>
+    <div class="field"><label>Link (optional — add later bhi kar sakte ho)</label>
+      <input type="text" id="m-link" placeholder="https://forms.gle/..."/>
+    </div>
+    <div class="mbtns">
+      <button class="mbtn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="mbtn-save" onclick="saveItem()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-wrap" id="dept-modal">
+  <div class="modal">
+    <h3>Add New Department</h3>
+    <div class="field"><label>Department Name</label><input type="text" id="dm-name" placeholder="e.g. HR & Admin"/></div>
+    <div class="mbtns">
+      <button class="mbtn-cancel" onclick="closeDeptModal()">Cancel</button>
+      <button class="mbtn-save" onclick="saveDept()">Add Department</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-wrap" id="link-modal">
+  <div class="modal">
+    <h3 id="lm-title">Edit Link</h3>
+    <div class="field"><label>Link</label><input type="text" id="lm-link" placeholder="https://forms.gle/..."/></div>
+    <div class="mbtns">
+      <button class="mbtn-cancel" onclick="closeLinkModal()">Cancel</button>
+      <button class="mbtn-save" onclick="saveLink()">Save Link</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let data = {
+  departments: [
+    { id: 1, name: 'Axiom', color: '#dbeafe', iconColor: '#1e4d8c', icon: 'ti-building', items: [] },
+    { id: 2, name: 'Axiom Buildcon', color: '#d1fae5', iconColor: '#065f46', icon: 'ti-building-skyscraper', items: [] }
+  ],
+  nextId: 10
+};
+
+let editTarget = null;
+let linkTarget = null;
+
+const DEPT_COLORS = [
+  {bg:'#dbeafe',ic:'#1e4d8c',icon:'ti-building'},
+  {bg:'#d1fae5',ic:'#065f46',icon:'ti-building-skyscraper'},
+  {bg:'#fef3c7',ic:'#92400e',icon:'ti-briefcase'},
+  {bg:'#fce7f3',ic:'#9d174d',icon:'ti-users'},
+  {bg:'#ede9fe',ic:'#5b21b6',icon:'ti-chart-bar'},
+  {bg:'#fee2e2',ic:'#991b1b',icon:'ti-settings'},
+];
+
+function render() {
+  const body = document.getElementById('body');
+  let totalForms = 0, totalSheets = 0;
+  data.departments.forEach(d => {
+    totalForms += d.items.filter(i=>i.type==='form').length;
+    totalSheets += d.items.filter(i=>i.type==='sheet').length;
+  });
+  document.getElementById('stat-dept').textContent = data.departments.length;
+  document.getElementById('stat-forms').textContent = totalForms;
+  document.getElementById('stat-sheets').textContent = totalSheets;
+
+  body.innerHTML = data.departments.map(dept => {
+    const forms = dept.items.filter(i=>i.type==='form');
+    const sheets = dept.items.filter(i=>i.type==='sheet');
+    return `<div class="dept-block">
+      <div class="dept-head">
+        <div class="dept-head-left">
+          <div class="dept-icon" style="background:${dept.color}"><i class="ti ${dept.icon}" style="color:${dept.iconColor}"></i></div>
+          <div>
+            <div class="dept-name">${dept.name}</div>
+            <div class="dept-count">${forms.length} Forms &nbsp;·&nbsp; ${sheets.length} Sheets</div>
+          </div>
+        </div>
+        <button onclick="deleteDept(${dept.id})" style="background:transparent;border:none;cursor:pointer;color:#dc2626;font-size:13px;padding:4px 8px;border-radius:6px;" title="Department delete karo"><i class="ti ti-trash"></i></button>
+      </div>
+      <div class="dept-body">
+        <div class="sec-label">
+          <span>Forms</span>
+          <button onclick="openModal(${dept.id},'form')" style="background:#dbeafe;border:none;border-radius:6px;padding:3px 10px;font-size:11px;color:#1e4d8c;cursor:pointer;font-weight:500;"><i class="ti ti-plus"></i> Add</button>
+        </div>
+        <div class="cards">
+          ${forms.map(item => cardHTML(item, dept.id)).join('')}
+        </div>
+        <div class="sec-label">
+          <span>Sheets</span>
+          <button onclick="openModal(${dept.id},'sheet')" style="background:#dcfce7;border:none;border-radius:6px;padding:3px 10px;font-size:11px;color:#166534;cursor:pointer;font-weight:500;"><i class="ti ti-plus"></i> Add</button>
+        </div>
+        <div class="cards">
+          ${sheets.map(item => cardHTML(item, dept.id)).join('')}
+        </div>
+      </div>
+    </div>`;
+  }).join('') + `<button class="add-dept-btn" onclick="openDeptModal()"><i class="ti ti-plus"></i> New Department Add Karo</button>`;
+}
+
+function cardHTML(item, deptId) {
+  const isForm = item.type === 'form';
+  const ic = isForm ? '#1e4d8c' : '#166534';
+  const ibg = isForm ? '#dbeafe' : '#dcfce7';
+  const badge = isForm ? '<span class="cbadge bf">Google Form</span>' : '<span class="cbadge bs">Google Sheet</span>';
+  const icon = isForm ? 'ti-clipboard-list' : 'ti-table';
+  return `<div class="card">
+    <div class="cicon" style="background:${ibg}"><i class="ti ${icon}" style="color:${ic}"></i></div>
+    <div class="cname">${item.name}</div>
+    ${badge}
+    <div class="card-btns">
+      ${item.link ? `<button class="cbtn" onclick="openLink('${item.link}')"><i class="ti ti-external-link" style="font-size:11px"></i> Open</button>` : `<button class="cbtn" onclick="openLinkModal(${deptId},${item.id})"><i class="ti ti-link" style="font-size:11px"></i> Link Add</button>`}
+      <button class="cbtn" onclick="openLinkModal(${deptId},${item.id})" title="Link edit karo"><i class="ti ti-edit" style="font-size:11px"></i></button>
+      <button class="cbtn del" onclick="deleteItem(${deptId},${item.id})" title="Delete"><i class="ti ti-trash" style="font-size:11px"></i></button>
+    </div>
+  </div>`;
+}
+
+function openModal(deptId, type) {
+  editTarget = {deptId, type};
+  document.getElementById('modal-title').textContent = type === 'form' ? 'Form Add Karo' : 'Sheet Add Karo';
+  document.getElementById('m-type').value = type;
+  document.getElementById('m-name').value = '';
+  document.getElementById('m-link').value = '';
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+function saveItem() {
+  const name = document.getElementById('m-name').value.trim();
+  if(!name) { alert('Naam zaroori hai!'); return; }
+  const dept = data.departments.find(d=>d.id===editTarget.deptId);
+  dept.items.push({id: data.nextId++, name, type: document.getElementById('m-type').value, link: document.getElementById('m-link').value.trim()});
+  closeModal(); render();
+}
+
+function deleteItem(deptId, itemId) {
+  const dept = data.departments.find(d=>d.id===deptId);
+  dept.items = dept.items.filter(i=>i.id!==itemId);
+  render();
+}
+
+function openDeptModal() { document.getElementById('dm-name').value=''; document.getElementById('dept-modal').classList.add('open'); }
+function closeDeptModal() { document.getElementById('dept-modal').classList.remove('open'); }
+
+function saveDept() {
+  const name = document.getElementById('dm-name').value.trim();
+  if(!name) { alert('Department ka naam likho!'); return; }
+  const ci = data.departments.length % DEPT_COLORS.length;
+  const c = DEPT_COLORS[ci];
+  data.departments.push({id: data.nextId++, name, color: c.bg, iconColor: c.ic, icon: c.icon, items:[]});
+  closeDeptModal(); render();
+}
+
+function deleteDept(id) {
+  if(!confirm('Yeh department aur iske saare forms/sheets delete ho jaayenge. Pakka?')) return;
+  data.departments = data.departments.filter(d=>d.id!==id);
+  render();
+}
+
+function openLinkModal(deptId, itemId) {
+  linkTarget = {deptId, itemId};
+  const dept = data.departments.find(d=>d.id===deptId);
+  const item = dept.items.find(i=>i.id===itemId);
+  document.getElementById('lm-title').textContent = item.name + ' — Link Edit Karo';
+  document.getElementById('lm-link').value = item.link || '';
+  document.getElementById('link-modal').classList.add('open');
+}
+function closeLinkModal() { document.getElementById('link-modal').classList.remove('open'); }
+
+function saveLink() {
+  const dept = data.departments.find(d=>d.id===linkTarget.deptId);
+  const item = dept.items.find(i=>i.id===linkTarget.itemId);
+  item.link = document.getElementById('lm-link').value.trim();
+  closeLinkModal(); render();
+}
+
+[document.getElementById('modal'), document.getElementById('dept-modal'), document.getElementById('link-modal')].forEach(m => {
+  m.addEventListener('click', e => { if(e.target===m) m.classList.remove('open'); });
+});
+
+render();
+</script>
